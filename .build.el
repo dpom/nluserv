@@ -22,11 +22,11 @@
 
 (load ent-init-file)
 
-;; (task 'org2md '() "convert org doc to md" '(lambda (&optional x) "cd docs; make all; cd .."))
+(task 'org2md '() "convert org doc to md" '(lambda (&optional x) "cd docs; make all; cd .."))
 
-;; (task 'api '() "build the API documentation" '(lambda (&optional x) "lein codox"))
+(task 'api '() "build the API documentation" '(lambda (&optional x) "lein codox"))
 
-;; (task 'doc '(org2md api) "build the project documentation" '(lambda (&optional x) "ls docs"))
+(task 'doc '(org2md api) "build the project documentation" '(lambda (&optional x) "ls docs"))
 
 (task 'format '() "format the project" '(lambda (&optional x) "lein cljfmt fix"))
 
@@ -46,8 +46,6 @@
 (task 'stage '(uberjar gencli) "deploy to stage" '(lambda (&optional x) "nlpsync"))
 
 (task 'run '() "run the server" '(lambda (&optional x) "lein run"))
-
-;; (task 'deploy '() "deploy to clojars" '(lambda (&optional x) "lein deploy clojars"))
 
 (task 'deps '() "load libs" '(lambda (&optional x) "lein deps"))
 
