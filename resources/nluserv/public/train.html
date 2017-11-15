@@ -1,0 +1,46 @@
+<!doctype html>
+<html class="no-js" lang="en" >
+    <head>
+        <meta  charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Train</title>
+        <link rel="stylesheet" href="css/foundation.min.css" />
+        <link rel="stylesheet" href="css/app.css" />
+    </head>
+    <body>
+        <!-- Start Top Bar -->
+        <div class="top-bar">
+            <div class="grid-x">
+                <div class="top-bar-left">
+                    <ul class="menu">
+                        <li class="menu-text">NLU Webservices </li>
+                        <li><a href="/test_intent">Testing Intent</a></li>
+                        <li><a href="/test_dims">Testing Entities</a></li>
+                        <li><a href="/test_stemmer">Testing Stemmer</a></li>
+                        <li><a href="/test_stopwords">Testing Removing Stop Words</a></li>
+                        <li class="is-active"><a href="/rain">Train</a></li>
+                        <li><a href="/about">About</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- End Top Bar -->
+        <br>
+
+        <div class="grid-container">
+
+
+
+            
+            <div class="cell">
+                <a class="button alert" href="/test_train">Train</a>
+
+                <textarea id="logs" name="logs" rows="10"> </textarea>
+
+            </div>
+        </div>
+        <script src="js/vendor/jquery.js"></script>
+        <script src="js/vendor/foundation.min.js"></script>
+        <script> $(document).foundation(); </script>
+    </body>
+</html>

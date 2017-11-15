@@ -1,2 +1,0 @@
-# nluserv
-NLU Web Services

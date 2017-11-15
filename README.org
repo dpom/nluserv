@@ -1,0 +1,88 @@
+* nluserv
+  :PROPERTIES:
+  :CUSTOM_ID: nluserv
+  :END:
+
+A NLU web services.
+
+** Developing
+   :PROPERTIES:
+   :CUSTOM_ID: developing
+   :END:
+
+*** Setup
+    :PROPERTIES:
+    :CUSTOM_ID: setup
+    :END:
+
+When you first clone this repository, run:
+
+#+BEGIN_SRC sh
+    lein duct setup
+#+END_SRC
+
+This will create files for local configuration, and prep your system for
+the project.
+
+*** Environment
+    :PROPERTIES:
+    :CUSTOM_ID: environment
+    :END:
+
+To begin developing, start with a REPL.
+
+#+BEGIN_SRC sh
+    lein repl
+#+END_SRC
+
+Then load the development environment.
+
+#+BEGIN_SRC clojure
+    user=> (dev)
+    :loaded
+#+END_SRC
+
+Run =go= to prep and initiate the system.
+
+#+BEGIN_SRC clojure
+    dev=> (go)
+    :duct.server.http.jetty/starting-server {:port 3000}
+    :initiated
+#+END_SRC
+
+By default this creates a web server at [[http://localhost:3000]].
+
+When you make changes to your source files, use =reset= to reload any
+modified files and reset the server.
+
+#+BEGIN_SRC clojure
+    dev=> (reset)
+    :reloading (...)
+    :resumed
+#+END_SRC
+
+*** Testing
+    :PROPERTIES:
+    :CUSTOM_ID: testing
+    :END:
+
+Testing is fastest through the REPL, as you avoid environment startup
+time.
+
+#+BEGIN_SRC clojure
+    dev=> (test)
+    ...
+#+END_SRC
+
+But you can also run tests through Leiningen.
+
+#+BEGIN_SRC sh
+    lein test
+#+END_SRC
+
+** Legal
+   :PROPERTIES:
+   :CUSTOM_ID: legal
+   :END:
+
+Copyright © 2017 Dan Pomohaci

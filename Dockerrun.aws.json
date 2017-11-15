@@ -1,0 +1,13 @@
+{
+  "AWSEBDockerrunVersion": "1",
+  "Image": {
+    "Name": "dpom/nluserv",
+    "Update": "true"
+  },
+  "Ports": [
+    {
+      "ContainerPort": "3300"
+    }
+  ],
+  "Logging": "/var/log/nluserv"
+}
