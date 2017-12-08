@@ -11,7 +11,7 @@ RUN adduser dan root
 
 COPY project.clj $HOME_DIR
 
-RUN lein deps
+# RUN lein deps
 
 COPY . $HOME_DIR
 

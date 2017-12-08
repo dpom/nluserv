@@ -51,11 +51,11 @@
 
 ;; (task 'heroku '(deps) "deploy to heroku" '(lambda (&optional x) "heroku container:push web"))
 
-;; (task 'build '(deps) "build docker image" '(lambda (&optional x) (concat "docker"
-;;                                                                                " build"
-;;                                                                                " -t " (make-image-tag)
-;;                                                                                " -t " (make-image-tag "latest")
-;;                                                                                " .")))
+(task 'dockerbuild '(deps) "build docker image" '(lambda (&optional x) (concat "docker"
+                                                                               " build"
+                                                                               " -t " (make-image-tag)
+                                                                               " -t " (make-image-tag "latest")
+                                                                               " .")))
 
 ;; (task 'dockerpush '(build) "push image to docker hub" '(lambda (&optional x) (concat "docker push " (make-image-tag)
 ;;                                                                                            ";docker push " (make-image-tag "latest"))))
