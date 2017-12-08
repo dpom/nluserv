@@ -14,7 +14,7 @@
                  [fipp "0.6.12"]
                  [ring/ring-codec "1.1.0"]
                  [dpom/nlpcore "1.0" :exclusions [duct/logger]]
-                 [dpom/clj-duckling "0.7.0"]
+                 [dpom/clj-duckling "0.7.2"]
                  [dpom/nlptools "0.6.0" :exclusions [org.jsoup/jsoup
                                                      instaparse
                                                      com.taoensso/truss 

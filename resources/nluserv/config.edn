@@ -21,17 +21,6 @@
                        }
 
  :nluserv.handler/about {}
- [:nluserv/config :nluserv.handler.train/train-config] {:tools [#ig/ref :clj-duckling.tool/duckling
-                                                                #ig/ref :nlptools.tool/classification,
-                                                                #ig/ref :nlptools.tool/stopwords,
-                                                                #ig/ref :nlptools.tool/stemmer]
-                                                        :models [#ig/ref :clj-duckling.model/classifier
-                                                                 #ig/ref :nlptools.model/classification]
-                                                        :corpora [#ig/ref :clj-duckling.corpus/edn
-                                                                  #ig/ref :nlptools.corpus/intent]}
- :nluserv.handler.train/train {}
- :nluserv.handler.train/test-train {:config #ig/ref :nluserv.handler.train/train-config}
-
 
  :nluserv.handler.intent/get-intent {:catint #ig/ref :nlptools.tool/classification
                                      :logger #ig/ref :duct/logger}
@@ -68,26 +57,6 @@
                               :logger   #ig/ref :duct.logger/timbre}
 
 
- :clj-duckling.model/classifier {:id "duck-classifier"
-                                 :language "ro"
-                                 :binfile #ig/ref :nluserv.duck/classifier
-                                 :loadbin? true
-                                 :corpus #ig/ref :clj-duckling.corpus/edn
-                                 :rules #ig/ref :clj-duckling.engine/edn
-                                 :logger   #ig/ref :duct.logger/timbre}
-
- [:nluserv.config/absfilename :nluserv.duck/classifier] {:filename "classifier.bin"
-                                                   :path  #duct/env ["TRAIN_DIR" :or "train"]}
-
-
- :clj-duckling.corpus/edn {:id "duck-corpus-edn"
-                           :language "ro"
-                           :dirpath  #ig/ref :nluserv.duck/corpusdir
-                           :logger   #ig/ref :duct.logger/timbre}
-
- [:nluserv.config/absfilename :nluserv.duck/corpusdir] {:filename "ro/corpus"
-                                                         :path  #duct/env ["TRAIN_DIR" :or "train"]}
-
 
  :clj-duckling.engine/edn {:id "dev-rules-edn"
                            :language "ro"
@@ -114,31 +83,6 @@
 
 
  :nlptools.model.tokenizer/simple {:logger #ig/ref :duct.logger/timbre}
-
- :nlptools.model/classification {:id "intent model"
-                                 :binfile #ig/ref :nluserv/modelfile
-                                 :loadbin? true
-                                 :language "ro"
-                                 :trainfile #ig/ref :nluserv/trainfile
-                                 :logger #ig/ref :duct.logger/timbre}
-
- :nlptools.corpus/intent {:id "intent corpus"
-                          :db       #ig/ref :nlptools.module/mongo
-                          :filepath  #ig/ref :nluserv/trainfile
-                          :logger   #ig/ref :duct.logger/timbre}
-
- [:nluserv.config/absfilename :nluserv/modelfile] {:filename "ema.bin"
-                                                   :path  #duct/env ["TRAIN_DIR" :or "train"]}
-
- [:nluserv.config/absfilename :nluserv/trainfile] {:filename "ema.train"
-                                                   :path  #duct/env ["TRAIN_DIR" :or "train"]}
-
-
- :nlptools.module/mongo {:database-name "emastage"
-                         :server-name   "gift-mongo1-ro-prod.emag.network"
-                         :port-number   27017
-                         :logger #ig/ref :duct/logger}
-
 
 
  :duct.middleware.web/defaults {:params {:urlencoded true,

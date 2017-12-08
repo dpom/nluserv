@@ -1,0 +1,4 @@
+ {
+  :duct.core/environment :production
+  :duct.core/include ["nluserv/config" "nluserv/notrain"]
+}

@@ -18,9 +18,8 @@
   [:textarea#logs] (h/content logs))
 
 (defn render-train
-  [logs]
-  (str/join (train-template
-             logs)))
+  [train? logs]
+  (str/join (train-template (if train? logs "Training is not available!"))))
 
 (defrecord TrainLogger [logs]
   logger/Logger
@@ -42,12 +41,12 @@
       (core/build-tool! t))
     {:status :ok :logs @(:logs tlogger) }))
 
-(defmethod ig/init-key ::train [_ options]
+(defmethod ig/init-key ::train [_ {:keys [train?] :or {train? true}}]
   (fn [{[_] :ataraxy/result}]
-    [::response/ok (render-train "")]))
+    [::response/ok (render-train train? "")]))
 
-(defmethod ig/init-key ::test-train [_ options]
+(defmethod ig/init-key ::test-train [_ {:keys [config train?] :or {train? true}}]
   (fn [{[_] :ataraxy/result}]
-    [::response/ok (render-train (with-out-str (fipp (:logs (train (:config options) nil)))))]))
+    [::response/ok (render-train train? (with-out-str (fipp (:logs (train config nil)))))]))
 
 
