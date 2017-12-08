@@ -21,11 +21,14 @@
                        }
 
  :nluserv.handler/about {}
- [:nluserv/config :nluserv.handler.train/train-config] {:tools [#ig/ref :nlptools.tool/classification,
+ [:nluserv/config :nluserv.handler.train/train-config] {:tools [#ig/ref :clj-duckling.tool/duckling
+                                                                #ig/ref :nlptools.tool/classification,
                                                                 #ig/ref :nlptools.tool/stopwords,
                                                                 #ig/ref :nlptools.tool/stemmer]
-                                                        :models [#ig/ref :nlptools.model/classification]
-                                                        :corpora [#ig/ref :nlptools.corpus/intent]}
+                                                        :models [#ig/ref :clj-duckling.model/classifier
+                                                                 #ig/ref :nlptools.model/classification]
+                                                        :corpora [#ig/ref :clj-duckling.corpus/edn
+                                                                  #ig/ref :nlptools.corpus/intent]}
  :nluserv.handler.train/train {}
  :nluserv.handler.train/test-train {:config #ig/ref :nluserv.handler.train/train-config}
 
@@ -36,11 +39,11 @@
                                       :logger #ig/ref :duct/logger}
  :nluserv.handler.intent/test-intent-get {:logger #ig/ref :duct/logger}
 
- :nluserv.handler.dims/get-dims {:duck #ig/ref :clj-duckling.core/load
+ :nluserv.handler.dims/get-dims {:tool #ig/ref :clj-duckling.tool/duckling
                                  :logger #ig/ref :duct/logger}
- :nluserv.handler.dims/test-dims {:duck #ig/ref :clj-duckling.core/load
+ :nluserv.handler.dims/test-dims {:tool #ig/ref :clj-duckling.tool/duckling
                                   :logger #ig/ref :duct/logger}
- :nluserv.handler.dims/test-dims-get {:duck #ig/ref :clj-duckling.core/load
+ :nluserv.handler.dims/test-dims-get {:tool #ig/ref :clj-duckling.tool/duckling
                                       :logger #ig/ref :duct/logger}
 
  :nluserv.handler.stemmer/get-stem {:stemmer #ig/ref :nlptools.tool/stemmer
@@ -59,9 +62,43 @@
  :duct.module/logging {}
  :duct.module.web/api {}
 
- :clj-duckling.core/load {:languages ["ro"]
-                          :logger #ig/ref :duct/logger}
+ :clj-duckling.tool/duckling {:id "duck-tool"
+                              :model #ig/ref :clj-duckling.model/classifier
+                              :rules #ig/ref :clj-duckling.engine/edn
+                              :logger   #ig/ref :duct.logger/timbre}
 
+
+ :clj-duckling.model/classifier {:id "duck-classifier"
+                                 :language "ro"
+                                 :binfile #ig/ref :nluserv.duck/classifier
+                                 :loadbin? true
+                                 :corpus #ig/ref :clj-duckling.corpus/edn
+                                 :rules #ig/ref :clj-duckling.engine/edn
+                                 :logger   #ig/ref :duct.logger/timbre}
+
+ [:nluserv.config/absfilename :nluserv.duck/classifier] {:filename "classifier.bin"
+                                                   :path  #duct/env ["TRAIN_DIR" :or "train"]}
+
+
+ :clj-duckling.corpus/edn {:id "duck-corpus-edn"
+                           :language "ro"
+                           :dirpath  #ig/ref :nluserv.duck/corpusdir
+                           :logger   #ig/ref :duct.logger/timbre}
+
+ [:nluserv.config/absfilename :nluserv.duck/corpusdir] {:filename "ro/corpus"
+                                                         :path  #duct/env ["TRAIN_DIR" :or "train"]}
+
+
+ :clj-duckling.engine/edn {:id "dev-rules-edn"
+                           :language "ro"
+                           :dirpath  #ig/ref :nluserv.duck/rulesdir
+                           :logger   #ig/ref :duct.logger/timbre}
+
+ [:nluserv.config/absfilename :nluserv.duck/rulesdir] {:filename "ro/rules"
+                                                        :path  #duct/env ["TRAIN_DIR" :or "train"]}
+
+
+ 
  :nlptools.tool/stemmer {:id "stemmer"
                          :language "ro"
                          :logger   #ig/ref :duct/logger}

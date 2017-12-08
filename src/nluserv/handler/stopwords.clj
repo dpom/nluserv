@@ -6,8 +6,8 @@
    [ataraxy.core :as ataraxy]
    [ataraxy.response :as response] 
    [clojure.java.io :as io]
-   [nlptools.tool.core :as tool]
    [net.cgrand.enlive-html :as h]
+   [nlpcore.protocols :as core]
    [integrant.core :as ig])
   (:import java.util.Properties))
 
@@ -15,7 +15,7 @@
 (defn remove-stopwords
   [text stopwords logger]
   (log logger :debug ::get-stopwords {:text text})
-  {:words (tool/apply-tool stopwords text)
+  {:words (core/apply-tool stopwords text {})
    :text text})
 
 (h/deftemplate test-template "nluserv/public/test_stopwords.html"
