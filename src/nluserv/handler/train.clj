@@ -7,9 +7,7 @@
    [clojure.java.io :as io]
    [net.cgrand.enlive-html :as h]
    [duct.logger :as logger]
-   [nlptools.tool.core :as tool]
-   [nlptools.corpus.core :as corp]
-   [nlptools.model.core :as modl]
+   [nlpcore.protocols :as core]
    [integrant.core :as ig])
   (:import java.util.Properties))
 
@@ -20,9 +18,8 @@
   [:textarea#logs] (h/content logs))
 
 (defn render-train
-  [logs]
-  (str/join (train-template
-             logs)))
+  [train? logs]
+  (str/join (train-template (if train? logs "Training is not available!"))))
 
 (defrecord TrainLogger [logs]
   logger/Logger
@@ -34,22 +31,22 @@
   (let [tlogger (->TrainLogger (atom []))
         {:keys [tools models corpora]} options]
     (doseq [c corpora]
-      (corp/build-corpus! c))
+      (core/build-corpus! c))
     (doseq [m models]
-      (modl/set-logger! m tlogger)
-      (modl/train-model! m)
-      (modl/save-model! m))
+      (core/set-logger! m tlogger)
+      (core/train-model! m)
+      (core/save-model! m))
     (doseq [t tools]
-      (tool/set-logger! t tlogger)
-      (tool/build-tool! t))
+      (core/set-logger! t tlogger)
+      (core/build-tool! t))
     {:status :ok :logs @(:logs tlogger) }))
 
-(defmethod ig/init-key ::train [_ options]
+(defmethod ig/init-key ::train [_ {:keys [train?] :or {train? true}}]
   (fn [{[_] :ataraxy/result}]
-    [::response/ok (render-train "")]))
+    [::response/ok (render-train train? "")]))
 
-(defmethod ig/init-key ::test-train [_ options]
+(defmethod ig/init-key ::test-train [_ {:keys [config train?] :or {train? true}}]
   (fn [{[_] :ataraxy/result}]
-    [::response/ok (render-train (with-out-str (fipp (:logs (train (:config options) nil)))))]))
+    [::response/ok (render-train train? (with-out-str (fipp (:logs (train config nil)))))]))
 
 

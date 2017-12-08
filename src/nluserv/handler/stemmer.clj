@@ -7,14 +7,14 @@
    [clojure.java.io :as io]
    [net.cgrand.enlive-html :as h]
    [duct.logger :refer [log]]
-   [nlptools.tool.core :as tool]
+   [nlpcore.protocols :as core]
    [integrant.core :as ig])
   (:import java.util.Properties))
 
 
 (defn get-stem
   [text stemmer]
-  {:stem (tool/apply-tool stemmer (str/trim text))
+  {:stem (core/apply-tool stemmer (str/trim text) {})
    :text text})
 
 (h/deftemplate test-template "nluserv/public/test_stemmer.html"

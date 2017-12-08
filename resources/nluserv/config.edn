@@ -21,14 +21,6 @@
                        }
 
  :nluserv.handler/about {}
- [:nluserv/config :nluserv.handler.train/train-config] {:tools [#ig/ref :nlptools.tool/classification,
-                                                                #ig/ref :nlptools.tool/stopwords,
-                                                                #ig/ref :nlptools.tool/stemmer]
-                                                        :models [#ig/ref :nlptools.model/classification]
-                                                        :corpora [#ig/ref :nlptools.corpus/intent]}
- :nluserv.handler.train/train {}
- :nluserv.handler.train/test-train {:config #ig/ref :nluserv.handler.train/train-config}
-
 
  :nluserv.handler.intent/get-intent {:catint #ig/ref :nlptools.tool/classification
                                      :logger #ig/ref :duct/logger}
@@ -36,11 +28,11 @@
                                       :logger #ig/ref :duct/logger}
  :nluserv.handler.intent/test-intent-get {:logger #ig/ref :duct/logger}
 
- :nluserv.handler.dims/get-dims {:duck #ig/ref :clj-duckling.core/load
+ :nluserv.handler.dims/get-dims {:tool #ig/ref :clj-duckling.tool/duckling
                                  :logger #ig/ref :duct/logger}
- :nluserv.handler.dims/test-dims {:duck #ig/ref :clj-duckling.core/load
+ :nluserv.handler.dims/test-dims {:tool #ig/ref :clj-duckling.tool/duckling
                                   :logger #ig/ref :duct/logger}
- :nluserv.handler.dims/test-dims-get {:duck #ig/ref :clj-duckling.core/load
+ :nluserv.handler.dims/test-dims-get {:tool #ig/ref :clj-duckling.tool/duckling
                                       :logger #ig/ref :duct/logger}
 
  :nluserv.handler.stemmer/get-stem {:stemmer #ig/ref :nlptools.tool/stemmer
@@ -59,9 +51,23 @@
  :duct.module/logging {}
  :duct.module.web/api {}
 
- :clj-duckling.core/load {:languages ["ro"]
-                          :logger #ig/ref :duct/logger}
+ :clj-duckling.tool/duckling {:id "duck-tool"
+                              :model #ig/ref :clj-duckling.model/classifier
+                              :rules #ig/ref :clj-duckling.engine/edn
+                              :logger   #ig/ref :duct.logger/timbre}
 
+
+
+ :clj-duckling.engine/edn {:id "dev-rules-edn"
+                           :language "ro"
+                           :dirpath  #ig/ref :nluserv.duck/rulesdir
+                           :logger   #ig/ref :duct.logger/timbre}
+
+ [:nluserv.config/absfilename :nluserv.duck/rulesdir] {:filename "ro/rules"
+                                                        :path  #duct/env ["TRAIN_DIR" :or "train"]}
+
+
+ 
  :nlptools.tool/stemmer {:id "stemmer"
                          :language "ro"
                          :logger   #ig/ref :duct/logger}
@@ -77,31 +83,6 @@
 
 
  :nlptools.model.tokenizer/simple {:logger #ig/ref :duct.logger/timbre}
-
- :nlptools.model/classification {:id "intent model"
-                                 :binfile #ig/ref :nluserv/modelfile
-                                 :loadbin? true
-                                 :language "ro"
-                                 :trainfile #ig/ref :nluserv/trainfile
-                                 :logger #ig/ref :duct.logger/timbre}
-
- :nlptools.corpus/intent {:id "intent corpus"
-                          :db       #ig/ref :nlptools.module/mongo
-                          :filepath  #ig/ref :nluserv/trainfile
-                          :logger   #ig/ref :duct.logger/timbre}
-
- [:nluserv.config/absfilename :nluserv/modelfile] {:filename "ema.bin"
-                                                   :path  #duct/env ["TRAIN_DIR" :or "train"]}
-
- [:nluserv.config/absfilename :nluserv/trainfile] {:filename "ema.train"
-                                                   :path  #duct/env ["TRAIN_DIR" :or "train"]}
-
-
- :nlptools.module/mongo {:database-name "emastage"
-                         :server-name   "gift-mongo1-ro-prod.emag.network"
-                         :port-number   27017
-                         :logger #ig/ref :duct/logger}
-
 
 
  :duct.middleware.web/defaults {:params {:urlencoded true,

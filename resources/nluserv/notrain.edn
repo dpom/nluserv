@@ -1,0 +1,36 @@
+{:duct.core/project-ns  nluserv
+ :duct.core/environment :production
+
+
+ :nluserv.handler.train/train  {:train? false}
+ :nluserv.handler.train/test-train {:train? false}
+
+
+
+ :clj-duckling.model/classifier {:id "duck-classifier"
+                                 :language "ro"
+                                 :binfile #ig/ref :nluserv.duck/classifier
+                                 :loadbin? true
+                                 :logger   #ig/ref :duct.logger/timbre}
+
+ [:nluserv.config/absfilename :nluserv.duck/classifier] {:filename "classifier.bin"
+                                                   :path  #duct/env ["TRAIN_DIR" :or "train"]}
+
+
+ :nlptools.model/classification {:id "intent model"
+                                 :binfile #ig/ref :nluserv/modelfile
+                                 :loadbin? true
+                                 :language "ro"
+                                 :logger #ig/ref :duct.logger/timbre}
+
+ [:nluserv.config/absfilename :nluserv/modelfile] {:filename "ema.bin"
+                                                   :path  #duct/env ["TRAIN_DIR" :or "train"]}
+
+
+
+ :nlptools.module/mongo {:database-name "emastage"
+                         :server-name   "gift-mongo1-ro-prod.emag.network"
+                         :port-number   27017
+                         :logger #ig/ref :duct/logger}
+
+ }

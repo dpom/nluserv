@@ -7,7 +7,7 @@
    [ataraxy.response :as response] 
    [clojure.java.io :as io]
    [net.cgrand.enlive-html :as h]
-   [nlptools.tool.core :as tool]
+   [nlpcore.protocols :as core]
    [integrant.core :as ig])
   (:import java.util.Properties))
 
@@ -16,7 +16,7 @@
   [text catint logger]
   (log logger :debug ::get-intent {:text text})
   ;; (log/debugf "get-intent params: text = |%s|" text)
-  {:intent (tool/apply-tool catint text)
+  {:intent (core/apply-tool catint text {})
    :text text})
 
 (h/deftemplate test-template "nluserv/public/test_intent.html"
