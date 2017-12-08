@@ -1,4 +1,4 @@
-(defproject nluserv "0.2-dev02"
+(defproject nluserv "0.2-dev03"
   :description "A NLU Web Services."
   :license {:name "Apache License 2.0"
             :url "https://www.apache.org/licenses/LICENSE-2.0.html"
