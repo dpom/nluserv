@@ -51,39 +51,6 @@
  :duct.module/logging {}
  :duct.module.web/api {}
 
- :clj-duckling.tool/duckling {:id "duck-tool"
-                              :model #ig/ref :clj-duckling.model/classifier
-                              :rules #ig/ref :clj-duckling.engine/edn
-                              :logger   #ig/ref :duct.logger/timbre}
-
-
-
- :clj-duckling.engine/edn {:id "dev-rules-edn"
-                           :language "ro"
-                           :dirpath  #ig/ref :nluserv.duck/rulesdir
-                           :logger   #ig/ref :duct.logger/timbre}
-
- [:nluserv.config/absfilename :nluserv.duck/rulesdir] {:filename "ro/rules"
-                                                        :path  #duct/env ["TRAIN_DIR" :or "train"]}
-
-
- 
- :nlptools.tool/stemmer {:id "stemmer"
-                         :language "ro"
-                         :logger   #ig/ref :duct/logger}
-
- :nlptools.tool/stopwords {:id "stopwords"
-                           :tokenizer #ig/ref :nlptools.model.tokenizer/simple
-                           :logger #ig/ref :duct.logger/timbre}
-
- :nlptools.tool/classification {:id "classsif"
-                                :tokenizer #ig/ref :nlptools.model.tokenizer/simple
-                                :model #ig/ref :nlptools.model/classification
-                                :logger #ig/ref :duct.logger/timbre}
-
-
- :nlptools.model.tokenizer/simple {:logger #ig/ref :duct.logger/timbre}
-
 
  :duct.middleware.web/defaults {:params {:urlencoded true,
                                          :keywordize true},

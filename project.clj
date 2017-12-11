@@ -1,4 +1,4 @@
-(defproject nluserv "0.2-dev04"
+(defproject nluserv "0.2-dev05"
   :description "A NLU Web Services."
   :license {:name "Apache License 2.0"
             :url "https://www.apache.org/licenses/LICENSE-2.0.html"
@@ -7,7 +7,7 @@
   :min-lein-version "2.0.0"
   :dependencies [[org.clojure/clojure "1.9.0"]
                  [duct/core "0.6.1"]
-                 [duct/module.logging "0.3.1" :exclusions [com.taoensso/truss]]
+                 [duct/module.logging "0.3.1" :exclusions [com.taoensso/truss com.taoensso/encore]]
                  [duct/module.web "0.6.3" :exclusions [commons-codec
                                                        com.fasterxml.jackson.core/jackson-core]]
                  [duct/module.ataraxy "0.2.0"]
@@ -17,14 +17,15 @@
                  [cheshire "5.8.0"]
                  [fipp "0.6.12"]
                  [ring/ring-codec "1.1.0"]
-                 [dpom/nlpcore "1.0" :exclusions [duct/logger]]
+                 [dpom/nlpcore "1.2" :exclusions [duct/logger]]
                  [dpom/clj-duckling "0.7.2"]
-                 [dpom/nlptools "0.6.0" :exclusions [org.jsoup/jsoup
-                                                     instaparse
-                                                     com.taoensso/truss 
-                                                     org.apache.commons/commons-lang3
-                                                     com.fasterxml.jackson.core/jackson-databind
-                                                     prismatic/schema]]]
+                 [dpom/nlptools "0.7" :exclusions [org.jsoup/jsoup
+                                                   instaparse
+                                                   com.taoensso/truss 
+                                                   org.apache.commons/commons-lang3
+                                                   com.fasterxml.jackson.core/jackson-databind
+                                                   com.taoensso/encore
+                                                   prismatic/schema]]]
   :pedantic? :warning
   :plugins [[duct/lein-duct "0.10.2"]
             [lein-ancient "0.6.10" :exclusions [commons-logging
