@@ -1,4 +1,4 @@
 {
  :duct.core/environment :development
- :duct.core/include ["nluserv/config"]
+ :duct.core/include ["nluserv/config" "nluserv/train"]
 }

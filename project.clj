@@ -1,11 +1,11 @@
-(defproject nluserv "0.2-dev03"
+(defproject nluserv "0.2-dev04"
   :description "A NLU Web Services."
   :license {:name "Apache License 2.0"
             :url "https://www.apache.org/licenses/LICENSE-2.0.html"
             :comments "see LICENSE"
             :distribution :repo}
   :min-lein-version "2.0.0"
-  :dependencies [[org.clojure/clojure "1.9.0-RC2"]
+  :dependencies [[org.clojure/clojure "1.9.0"]
                  [duct/core "0.6.1"]
                  [duct/module.logging "0.3.1" :exclusions [com.taoensso/truss]]
                  [duct/module.web "0.6.3" :exclusions [commons-codec
