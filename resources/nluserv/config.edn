@@ -28,11 +28,11 @@
                                       :logger #ig/ref :duct/logger}
  :nluserv.handler.intent/test-intent-get {:logger #ig/ref :duct/logger}
 
- :nluserv.handler.dims/get-dims {:tool #ig/ref :clj-duckling.tool/duckling
+ :nluserv.handler.dims/get-dims {:config #ig/ref :nluserv.handler.dims/config
                                  :logger #ig/ref :duct/logger}
- :nluserv.handler.dims/test-dims {:tool #ig/ref :clj-duckling.tool/duckling
+ :nluserv.handler.dims/test-dims {:config #ig/ref :nluserv.handler.dims/config
                                   :logger #ig/ref :duct/logger}
- :nluserv.handler.dims/test-dims-get {:tool #ig/ref :clj-duckling.tool/duckling
+ :nluserv.handler.dims/test-dims-get {:config #ig/ref :nluserv.handler.dims/config
                                       :logger #ig/ref :duct/logger}
 
  :nluserv.handler.stemmer/get-stem {:stemmer #ig/ref :nlptools.tool/stemmer
@@ -46,6 +46,12 @@
  :nluserv.handler.stopwords/test-stopwords {:stopwords #ig/ref :nlptools.tool/stopwords
                                             :logger #ig/ref :duct/logger}
  :nluserv.handler.stopwords/test-stopwords-get {:logger #ig/ref :duct/logger}
+
+ [:nluserv/config :nluserv.handler.dims/config] {:tools [#ig/ref :clj-duckling.tool/duckling,
+                                                         #ig/ref :nluserv.tool.entity/category
+                                                         #ig/ref :nluserv.tool.entity/brand]}
+ 
+
 
 
  :duct.module/logging {}

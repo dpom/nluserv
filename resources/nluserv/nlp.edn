@@ -9,13 +9,53 @@
 
 
 
- :clj-duckling.engine/edn {:id "dev-rules-edn"
+ :clj-duckling.engine/edn {:id "duck-rules-edn"
                            :language "ro"
                            :dirpath  #ig/ref :nluserv.duck/rulesdir
                            :logger   #ig/ref :duct.logger/timbre}
 
  [:nluserv.config/absfilename :nluserv.duck/rulesdir] {:filename "ro/rules"
                                                         :path  #duct/env ["TRAIN_DIR" :or "train"]}
+
+ [:nlptools.tool/entity :nluserv.tool.entity/category] {:id "tool-entity-category"
+                        :model #ig/ref :nluserv.model.entity/category
+                        :logger #ig/ref :duct.logger/timbre
+                        :tokenizer #ig/ref :nlptools.model.tokenizer/simple}
+
+ [:nlptools.model/entity :nluserv.model.entity/category] {:id "model-entity-category"
+                                                          :language "ro"
+                                                          :entity "category"
+                                                          :loadbin? true
+                                                          :binfile #ig/ref :nluserv.entity.binfile/category
+                                                          :trainfile #ig/ref :nluserv.entity.trainfile/category
+                                                          :logger #ig/ref :duct.logger/timbre}
+
+ [:nluserv.config/absfilename :nluserv.entity.binfile/category] {:filename "category.bin"
+                                                                 :path  #duct/env ["TRAIN_DIR" :or "train"]}
+
+ [:nluserv.config/absfilename :nluserv.entity.trainfile/category] {:filename "category.train"
+                                                                 :path  #duct/env ["TRAIN_DIR" :or "train"]}
+
+
+ [:nlptools.tool/entity :nluserv.tool.entity/brand] {:id "tool-entity-brand"
+                                                        :model #ig/ref :nluserv.model.entity/brand
+                                                        :logger #ig/ref :duct.logger/timbre
+                                                        :tokenizer #ig/ref :nlptools.model.tokenizer/simple}
+
+ [:nlptools.model/entity :nluserv.model.entity/brand] {:id "model-entity-brand"
+                                                          :language "ro"
+                                                          :entity "brand"
+                                                          :loadbin? true
+                                                          :binfile #ig/ref :nluserv.entity.binfile/brand
+                                                          :trainfile #ig/ref :nluserv.entity.trainfile/brand
+                                                          :logger #ig/ref :duct.logger/timbre}
+
+ [:nluserv.config/absfilename :nluserv.entity.binfile/brand] {:filename "brand.bin"
+                                                                 :path  #duct/env ["TRAIN_DIR" :or "train"]}
+
+ [:nluserv.config/absfilename :nluserv.entity.trainfile/brand] {:filename "brand.train"
+                                                                 :path  #duct/env ["TRAIN_DIR" :or "train"]}
+
 
 
  

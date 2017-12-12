@@ -2,11 +2,15 @@
  :duct.core/environment :production
 
 
- [:nluserv/config :nluserv.handler.train/train-config] {:tools [#ig/ref :clj-duckling.tool/duckling
+ [:nluserv/config :nluserv.handler.train/train-config] {:tools [#ig/ref :clj-duckling.tool/duckling,
+                                                                #ig/ref :nluserv.tool.entity/category
+                                                                #ig/ref :nluserv.tool.entity/brand
                                                                 #ig/ref :nlptools.tool/classification,
                                                                 #ig/ref :nlptools.tool/stopwords,
                                                                 #ig/ref :nlptools.tool/stemmer]
                                                         :models [#ig/ref :clj-duckling.model/classifier
+                                                                 #ig/ref :nluserv.model.entity/category
+                                                                 #ig/ref :nluserv.model.entity/brand
                                                                  #ig/ref :nlptools.model/classification]
                                                         :corpora [#ig/ref :clj-duckling.corpus/edn
                                                                   #ig/ref :nlptools.corpus/intent]}
@@ -34,6 +38,12 @@
 
  [:nluserv.config/absfilename :nluserv.duck/corpusdir] {:filename "ro/corpus"
                                                          :path  #duct/env ["TRAIN_DIR" :or "train"]}
+
+
+
+
+
+
 
 
  

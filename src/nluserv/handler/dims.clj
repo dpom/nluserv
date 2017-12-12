@@ -1,6 +1,7 @@
 (ns nluserv.handler.dims
   (:require
    [clojure.string :as str]
+   [clojure.set :as cset]
    [fipp.edn :refer [pprint] :rename {pprint fipp}]
    [duct.logger :refer [log]]
    [ataraxy.core :as ataraxy]
@@ -14,19 +15,25 @@
 (:import java.util.Properties))
 
 
-(defn get-entities
+(defn get-module-entities
   [text sdims tool logger]
   (log logger :debug ::get-entities {:dims sdims, :text text :tool (core/get-id tool)})
-  (let [dims (if-not (empty? sdims)
-               (vec (map keyword (str/split sdims #",")))
-               [])]
-    {:dims (str/join "," dims)
-     :text text
-     :entities (core/apply-tool tool text {:dims dims})}))
+  (mapv (fn [e]
+          (update (cset/rename-keys e {:entity :dim}) :dim keyword))
+        (core/apply-tool tool text {:dims sdims})))
 
 ;; (get-entities "vreau sa fac un cadou sub 1000 lei unui baiat de 10 ani" "gender,duration,budget")
 
-
+(defn get-all-entities
+  [text sdims config logger]
+  (let [dims (if-not (empty? sdims)
+               (set (map keyword (str/split sdims #",")))
+               #{})
+        opts {:dims dims}
+        tools (:tools config)]
+    {:dims (str/join "," dims)
+     :text text
+     :entities (mapcat #(get-module-entities text dims % logger) tools)}))
 
 (h/deftemplate test-template "nluserv/public/test_dims.html"
   [dims q res]
@@ -35,18 +42,18 @@
   [:input#test_dims] (h/set-attr :value dims))
 
 
-(defmethod ig/init-key ::get-dims [_ {:keys [logger tool]}]
+(defmethod ig/init-key ::get-dims [_ {:keys [logger config]}]
   (fn [{[_ message] :ataraxy/result}]
-    (log logger :debug ::get-dims {:message message :tool (core/get-id tool)})
+    (log logger :debug ::get-dims {:message message})
     (let [{:keys [q dims] :or {q "" dims ""}} message]
-      [::response/ok (get-entities q dims tool logger)])))
+      [::response/ok (get-all-entities q dims config logger)])))
 
-(defmethod ig/init-key ::test-dims [_ {:keys [logger tool]}]
+(defmethod ig/init-key ::test-dims [_ {:keys [logger config]}]
   (fn [{[_ message] :ataraxy/result}]
     (log logger :debug ::test-dims {:message message})
     (let [q (get message "q" "")
           dims (get message "dims" "")]
-      [::response/ok (str/join (test-template dims q (with-out-str (fipp (get-entities q dims tool logger)))))])))
+      [::response/ok (str/join (test-template dims q (with-out-str (fipp (get-all-entities q dims config logger)))))])))
 
 (defmethod ig/init-key ::test-dims-get [_ options]
   (fn [{[_] :ataraxy/result}]
