@@ -1,4 +1,4 @@
-(defproject nluserv "0.2-dev05"
+(defproject nluserv "0.2-dev06"
   :description "A NLU Web Services."
   :license {:name "Apache License 2.0"
             :url "https://www.apache.org/licenses/LICENSE-2.0.html"
@@ -18,7 +18,7 @@
                  [fipp "0.6.12"]
                  [ring/ring-codec "1.1.0"]
                  [dpom/nlpcore "1.2" :exclusions [duct/logger]]
-                 [dpom/clj-duckling "0.7.2"]
+                 [dpom/clj-duckling "0.8.0"]
                  [dpom/nlptools "0.7" :exclusions [org.jsoup/jsoup
                                                    instaparse
                                                    com.taoensso/truss 

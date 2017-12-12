@@ -14,6 +14,19 @@
    [nlpcore.spec :as nsp])
 (:import java.util.Properties))
 
+(defn get-all-dims
+  "Get all dims suprted by entity-extractors tools.
+
+  Args:
+  tools (collection): a tools collection
+
+  Returns:
+  (string): a coma separated dims list"
+  [tools]
+  (let [xf (comp
+            (map core/get-features)
+            (map :entities))]
+    (str/join "," (sort (map name (transduce xf cset/union tools))))))
 
 (defn get-module-entities
   [text sdims tool logger]
@@ -31,7 +44,7 @@
                #{})
         opts {:dims dims}
         tools (:tools config)]
-    {:dims (str/join "," dims)
+    {:dims (str/join "," (map name dims))
      :text text
      :entities (mapcat #(get-module-entities text dims % logger) tools)}))
 
@@ -57,4 +70,4 @@
 
 (defmethod ig/init-key ::test-dims-get [_ options]
   (fn [{[_] :ataraxy/result}]
-    [::response/ok (str/join (test-template "" "" ""))]))
+    [::response/ok (str/join (test-template (get-all-dims (get-in options [:config :tools] [])) "" ""))]))
